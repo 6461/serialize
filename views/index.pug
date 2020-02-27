@@ -2,4 +2,8 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Sample data
+  textarea(disabled='disabled') #{data}
+  br
+  br
+  button(onclick="window.location.href='/serialize';") Serialize
