@@ -11,15 +11,22 @@ router.get('/', function(req, res, next) {
   let data = [];
   let start = 0;
   let end = 0;
+  let loop = 100;
   
   // JSON
   let json = {name: "JSON"};
+  let jsonEnc = null;
+  let jsonDec = null;
   start = process.hrtime.bigint();
-  let jsonEnc = JSON.stringify(example);
+  for (let i = 0; i < loop; i++) {
+    jsonEnc = JSON.stringify(example);
+  };
   end = process.hrtime.bigint();
   json.enc = Number(end - start)/1000000;
   start = process.hrtime.bigint();
-  let jsonDec = JSON.parse(jsonEnc);
+  for (let i = 0; i < loop; i++) {
+    jsonDec = JSON.parse(jsonEnc);
+  };
   end = process.hrtime.bigint();
   json.dec = Number(end - start)/1000000;
   json.size = jsonEnc.length;
@@ -27,12 +34,18 @@ router.get('/', function(req, res, next) {
   
   // MessagePack
   let mp = {name: "MessagePack"};
+  let mpEnc = null;
+  let mpDec = null;
   start = process.hrtime.bigint();
-  let mpEnc = msgpack.encode(example);
+  for (let i = 0; i < loop; i++) {
+    mpEnc = msgpack.encode(example);
+  };
   end = process.hrtime.bigint();
   mp.enc = Number(end - start)/1000000;
   start = process.hrtime.bigint();
-  let mpDec = msgpack.decode(mpEnc);
+  for (let i = 0; i < loop; i++) {
+    mpDec = msgpack.decode(mpEnc);
+  };
   end = process.hrtime.bigint();
   mp.dec = Number(end - start)/1000000;
   mp.size = mpEnc.length;
@@ -40,12 +53,18 @@ router.get('/', function(req, res, next) {
   
   // XML
   let xml = {name: "XML"};
+  let xmlEnc = null;
+  let xmlDec = null;
   start = process.hrtime.bigint();
-  let xmlEnc = xmljs.js2xml(example, {compact: true});
+  for (let i = 0; i < loop; i++) {
+    xmlEnc = xmljs.js2xml(example, {compact: true});
+  };
   end = process.hrtime.bigint();
   xml.enc = Number(end - start)/1000000;
   start = process.hrtime.bigint();
-  let xmlDec = xmljs.xml2js(xmlEnc);
+  for (let i = 0; i < loop; i++) {
+    xmlDec = xmljs.xml2js(xmlEnc);
+  };
   end = process.hrtime.bigint();
   xml.dec = Number(end - start)/1000000;
   xml.size = xmlEnc.length;
@@ -53,18 +72,24 @@ router.get('/', function(req, res, next) {
   
   // YAML
   let y = {name: "YAML"};
+  let yamlEnc = null;
+  let yamlDec = null;
   start = process.hrtime.bigint();
-  let yamlEnc = yaml.stringify(example);
+  for (let i = 0; i < loop; i++) {
+    yamlEnc = yaml.stringify(example);
+  };
   end = process.hrtime.bigint();
   y.enc = Number(end - start)/1000000;
   start = process.hrtime.bigint();
-  let yamlDec = yaml.parse(yamlEnc);
+  for (let i = 0; i < loop; i++) {
+    yamlDec = yaml.parse(yamlEnc);
+  };
   end = process.hrtime.bigint();
   y.dec = Number(end - start)/1000000;
   y.size = yamlEnc.length;
   data.push(y);
   
-  res.render('serialize', {title: 'serialize', data: JSON.stringify(data)});
+  res.render('serialize', {title: 'serialize', data: JSON.stringify(data), loop: loop});
 });
 
 module.exports = router;

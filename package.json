@@ -13,7 +13,6 @@
     "url": "https://github.com/6461/serialize.git"
   },
   "dependencies": {
-    "chart.js": "^2.9.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",

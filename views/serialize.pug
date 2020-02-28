@@ -2,4 +2,15 @@ extends layout
 
 block content
   h1= title
-  textarea(disabled='disabled') #{data}
+  script.
+    let chartData = !{data};
+  p All operations were executed #{loop} times.
+  h3 serialization time
+  .chart
+    canvas#enc(width='640' height='480')
+  h3 deserialization time
+  .chart
+    canvas#dec(width='640' height='480')
+  h3 serialized data size
+  .chart
+    canvas#size(width='640' height='480')
